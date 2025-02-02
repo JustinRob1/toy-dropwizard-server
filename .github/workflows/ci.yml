@@ -1,4 +1,4 @@
-name: continuous integration example
+name: CI Workflow
 
 on:
   push:
@@ -8,19 +8,18 @@ on:
 jobs:
   build-and-test-pleaaase:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v1
-      - name: Install Java
-        uses: actions/setup-java@v1
+      - name: Checkout Code
+        uses: actions/checkout@v3
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
-          java-version: "11"
-      - name: Build with gradle!
-        working-directory: .
-        run: |
-          chmod +x gradlew
-          ./gradlew build -x test
-      - name: Run tests!!!!
-        working-directory: .
-        run: |
-          chmod +x gradlew
-          ./gradlew test
+          node-version: 16
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run Tests
+        run: npm test
